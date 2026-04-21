@@ -52,7 +52,7 @@ Qunado un host riceve un invito a presentarsi dovra' condividere il suo *NAME*
   * Crea il Datagramma
     * Inserisce l'indirizzo IP mittente e destinatario
 * **DataLink : `Layout`**
-  * Oltre al send e al receive ci sara' un terzo metodo per la ricerca del MAC dell'host di destinaizone
+  * Oltre al send e al receive ci sarà un terzo metodo per la ricerca del MAC dell'host di destinaizone
   * aggiunge MAC destinazione e mittente
 * **Fisico : `Layout`**
   * Rallenta l'invio dei pacchetti in relazione al tipo di collegamento dell'host
