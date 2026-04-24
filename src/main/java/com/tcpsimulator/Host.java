@@ -2,19 +2,21 @@ package com.tcpsimulator;
 
 import java.util.UUID;
 
-import com.layer.LayerInfo;
+import com.Interface.NetDevice;
+import com.layer.NetworkCard;
 
-public class Host {
+public class Host implements NetDevice {
     public static final int MAX_HOST_NAME_LENGTH = 20;
 
     private String name;
     private boolean status;
-    private LayerInfo network;
+    private NetworkCard network;
 
     /**
      * Normal constructor
      *
-     * @param name hostname must not be empty or longer than MAX_HOST_NAME_LENGTH
+     * @param name hostname must not be empty or longer than
+     *             {@code MAX_HOST_NAME_LENGTH}
      * @param ip   is a string like this 192.168.100.234
      * @param mac  is a string like this E4-60-17-3A-6F-6E
      */
@@ -22,7 +24,7 @@ public class Host {
         this.name = (name.isEmpty() || name.length() > 20)
                 ? "host-" + UUID.randomUUID()
                 : name;
-        this.network = new LayerInfo(this, ip, mac);
+        this.network = new NetworkCard(this, ip, mac);
     }
 
     /**
@@ -32,7 +34,7 @@ public class Host {
      */
     public Host(Host ref) {
         this.name = ref.getName();
-        this.network = new LayerInfo(ref, ref.getNetwork().getIP(), ref.getNetwork().getMAC());
+        this.network = new NetworkCard(ref, ref.getNetwork().getIP(), ref.getNetwork().getMAC());
     }
 
     // Getter
@@ -45,7 +47,7 @@ public class Host {
         return this.status;
     }
 
-    public LayerInfo getNetwork() {
+    public NetworkCard getNetwork() {
         return this.network;
     }
 
@@ -76,11 +78,19 @@ public class Host {
      * 
      * @param network network card
      */
-    public void setNetwork(LayerInfo network) {
+    public void setNetwork(NetworkCard network) {
         if (this.status)
             return;
 
         this.network = network;
     }
 
+    @Override
+    public void onReceiveData(String hostname, String data) {
+        System.out.println(this.name
+                + " received by: "
+                + hostname
+                + " this data: "
+                + data);
+    }
 }
