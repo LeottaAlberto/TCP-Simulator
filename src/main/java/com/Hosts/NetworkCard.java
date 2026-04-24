@@ -1,4 +1,4 @@
-package com.layer;
+package com.Hosts;
 
 import javax.naming.Context;
 
@@ -6,6 +6,7 @@ import com.Enums.ApplicationProtocol;
 import com.Interface.NetDevice;
 import com.Utility.Check;
 import com.Utility.Generate;
+import com.layer.ApplicationLayer;
 
 public class NetworkCard {
     private final ApplicationLayer appLayer;
