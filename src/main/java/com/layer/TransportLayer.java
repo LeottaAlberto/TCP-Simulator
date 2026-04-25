@@ -1,29 +1,17 @@
 package com.layer;
 
-import javax.naming.Context;
-
 import com.Interface.Layer;
+import com.Interface.Packet;
 
-public class TransportLayer implements Layer<String, String> {
-    private int port;
-
-    @Override
-    public Object getPayload() {
-        return null;
-    }
+public class TransportLayer implements Layer {
 
     @Override
-    public void send(String data, Context ctx) {
+    public void send(Packet packet) {
         // this.nextLayer.send(data, null);
     }
 
     @Override
-    public void receive(String data) {
+    public void receive(Packet packet) {
         // this.host.dataDecapsulation(data);
-    }
-
-    @Override
-    public void send(String data, Object object) {
-        throw new UnsupportedOperationException("Unimplemented method 'send'");
     }
 }

@@ -3,7 +3,6 @@ package com.Hosts;
 import java.util.UUID;
 
 import com.Interface.NetDevice;
-import com.layer.NetworkCard;
 
 public class Host implements NetDevice {
     public static final int MAX_HOST_NAME_LENGTH = 20;

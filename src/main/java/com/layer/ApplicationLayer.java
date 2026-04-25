@@ -1,36 +1,25 @@
 package com.layer;
 
-import javax.naming.Context;
-
 import com.Hosts.NetworkCard;
 import com.Interface.Layer;
+import com.Interface.Packet;
 
 public class ApplicationLayer implements Layer {
-    private final Layer<String, ?> nextLayer;
+    // private final Layer<String, ?> nextLayer;
     private final NetworkCard host;
 
     public ApplicationLayer(NetworkCard host) {
-        this.nextLayer = new TransportLayer();
+        // this.nextLayer = new TransportLayer();
         this.host = host;
     }
 
     @Override
-    public Object getPayload() {
-        return null;
+    public void send(Packet packet) {
+        // this.nextLayer.send(data, null);
     }
 
     @Override
-    public void send(String data, Context ctx) {
-        this.nextLayer.send(data, null);
-    }
-
-    @Override
-    public void receive(String data) {
-        this.host.dataDecapsulation(data);
-    }
-
-    @Override
-    public void send(String data, Object object) {
-        throw new UnsupportedOperationException("Unimplemented method 'send'");
+    public void receive(Packet packet) {
+        // this.host.dataDecapsulation(data);
     }
 }
