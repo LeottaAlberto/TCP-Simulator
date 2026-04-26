@@ -1,25 +1,42 @@
 package com.layer;
 
-import com.Hosts.NetworkCard;
 import com.Interface.Layer;
+import com.Interface.NetDevice;
 import com.Interface.Packet;
+import com.package_layer.Application;
 
 public class ApplicationLayer implements Layer {
-    private final Layer nextLayer;
-    private final NetworkCard host;
+    private Layer nextLayer;
+    private final NetDevice host;
 
-    public ApplicationLayer(NetworkCard host) {
-        this.nextLayer = new TransportLayer(this, TODO); //edit TODO with Host index for physicsLayer.send()
-        this.host = host;                                // for now is with Host direct object
+    public ApplicationLayer(NetDevice host) {
+        this.host = host;
+    }
+
+    public void setNextLayer(Layer transportLayer) {
+        this.nextLayer = transportLayer;
+    }
+
+    public Layer getNextLayer() {
+        return this.nextLayer;
+    }
+
+    public NetDevice getHost() {
+        return this.host;
     }
 
     @Override
-    public void send(Packet packet) {
-        this.nextLayer.send(packet);
+    public void send(Packet<?> packet) {
+        if (packet instanceof Application a) {
+            this.nextLayer.send(a);
+        }
     }
 
     @Override
-    public void receive(Packet packet) {
-        // this.host.dataDecapsulation(packet);
+    public void receive(Packet<?> packet) {
+        if (packet instanceof Application a) {
+            this.host.onReceiveData("pc-1", a.getMess());
+        }
     }
+
 }
