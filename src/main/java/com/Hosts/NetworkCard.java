@@ -1,7 +1,5 @@
 package com.Hosts;
 
-import javax.naming.Context;
-
 import com.Enums.ApplicationProtocol;
 import com.Interface.NetDevice;
 import com.Utility.Check;
@@ -59,6 +57,6 @@ public class NetworkCard {
     }
 
     public void dataEncapsulation(String message, ApplicationProtocol protocol) {
-        this.appLayer.send(message, protocol);
+        // this.appLayer.send(message, protocol); change this to empty package List --------------------
     }
 }
