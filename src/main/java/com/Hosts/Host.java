@@ -2,6 +2,7 @@ package com.Hosts;
 
 import java.util.UUID;
 
+import com.Enums.ApplicationProtocol;
 import com.Interface.NetDevice;
 
 public class Host implements NetDevice {
@@ -91,5 +92,12 @@ public class Host implements NetDevice {
                 + hostname
                 + " this data: "
                 + data);
+    }
+
+    public void sendMessage(String mess) {
+        if (mess.isBlank())
+            return;
+
+        this.network.dataEncapsulation(mess, ApplicationProtocol.HTTPS);
     }
 }
