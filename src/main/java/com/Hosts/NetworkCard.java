@@ -5,8 +5,18 @@ import com.Interface.NetDevice;
 import com.Utility.Check;
 import com.Utility.Generate;
 import com.layer.ApplicationLayer;
+import com.layer.DatalinkLayer;
+import com.layer.NetworkLayer;
+import com.layer.PhysicsLayer;
+import com.layer.TransportLayer;
+import com.package_layer.Application;
 
 public class NetworkCard {
+
+    private final PhysicsLayer physicsLayer;
+    private final DatalinkLayer dtLayer;
+    private final NetworkLayer netLayer;
+    private final TransportLayer transLayer;
     private final ApplicationLayer appLayer;
     private final NetDevice ref;
     private String IP;
@@ -18,7 +28,18 @@ public class NetworkCard {
                 ? IP
                 : Generate.nextIP();
         this.MAC = MAC;
-        this.appLayer = new ApplicationLayer(this);
+
+        this.physicsLayer = new PhysicsLayer();
+        this.dtLayer = new DatalinkLayer(this.physicsLayer);
+        this.netLayer = new NetworkLayer(this.dtLayer);
+        this.transLayer = new TransportLayer(this.netLayer);
+        this.appLayer = new ApplicationLayer(this.ref);
+
+        this.physicsLayer.setNextLayer(dtLayer);
+        this.dtLayer.setPrevLayer(netLayer);
+        this.netLayer.setPrevLayer(transLayer);
+        this.transLayer.setPreLayer(appLayer);
+        this.appLayer.setNextLayer(transLayer);
     }
 
     public NetworkCard(NetworkCard ref) {
@@ -26,6 +47,10 @@ public class NetworkCard {
         this.IP = ref.getIP();
         this.MAC = ref.getMAC();
         this.appLayer = ref.getAppLayer();
+        this.dtLayer = ref.getDtLayer();
+        this.physicsLayer = ref.getPhysicsLayer();
+        this.netLayer = ref.getNetLayer();
+        this.transLayer = ref.getTransLayer();
     }
 
     public NetDevice getRef() {
@@ -44,6 +69,22 @@ public class NetworkCard {
         return this.appLayer;
     }
 
+    public PhysicsLayer getPhysicsLayer() {
+        return this.physicsLayer;
+    }
+
+    public DatalinkLayer getDtLayer() {
+        return this.dtLayer;
+    }
+
+    public NetworkLayer getNetLayer() {
+        return this.netLayer;
+    }
+
+    public TransportLayer getTransLayer() {
+        return this.transLayer;
+    }
+
     public void setIP(String IP) {
         this.IP = IP;
     }
@@ -57,6 +98,7 @@ public class NetworkCard {
     }
 
     public void dataEncapsulation(String message, ApplicationProtocol protocol) {
-        // this.appLayer.send(message, protocol); change this to empty package List --------------------
+        Application a = new Application(message, protocol);
+        this.appLayer.send(a);
     }
 }
