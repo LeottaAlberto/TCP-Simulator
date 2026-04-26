@@ -2,12 +2,12 @@ package com.package_layer;
 
 import com.Interface.Packet;
 
-public class Frame implements Packet {
+public class Frame implements Packet<Datagram> {
     private final String MACSrc;
     private final String MACDest;
     private final Datagram payload;
 
-    public Frame(String MACSrc, String MACDest, Datagram payload) {
+    public Frame(Datagram payload, String MACSrc, String MACDest) {
         this.MACSrc = MACSrc;
         this.MACDest = MACDest;
         this.payload = payload;

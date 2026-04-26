@@ -2,19 +2,19 @@ package com.package_layer;
 
 import com.Interface.Packet;
 
-public class Datagram implements Packet {
+public class Datagram implements Packet<Segment> {
     private final String IPsrc;
     private final String IPDest;
     private final Segment payload;
 
-    public Datagram(String IPsrc, String IPDest, Segment payload) {
+    public Datagram(Segment payload, String IPsrc, String IPDest) {
         this.payload = payload;
         this.IPDest = IPDest;
         this.IPsrc = IPsrc;
     }
 
     @Override
-    public Object getPayload() {
+    public Segment getPayload() {
         return payload;
     }
 

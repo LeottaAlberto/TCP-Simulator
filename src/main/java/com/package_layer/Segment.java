@@ -2,19 +2,19 @@ package com.package_layer;
 
 import com.Interface.Packet;
 
-public class Segment implements Packet {
+public class Segment implements Packet<Application> {
     private final int portSrc;
     private final int portDest;
-    private final String data;
+    private final Application data;
 
-    public Segment(String data, int portSrc, int portDest) {
+    public Segment(Application data, int portSrc, int portDest) {
         this.data = data;
         this.portDest = portDest;
         this.portSrc = portSrc;
     }
 
     @Override
-    public Object getPayload() {
+    public Application getPayload() {
         return this.data;
     }
 

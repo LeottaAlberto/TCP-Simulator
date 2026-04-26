@@ -1,5 +1,5 @@
 package com.Interface;
 
-public interface Packet {
-    Object getPayload();
+public interface Packet<T> {
+    T getPayload();
 }
