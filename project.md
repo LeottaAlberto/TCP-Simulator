@@ -33,6 +33,17 @@ Qunado un host riceve un invito a presentarsi dovra' condividere il suo *NAME*
   * Receive
 * **NetDevice**
   * onReceiveData
+* **Packet**
+  * getPayload
+
+## Enum
+* **ApplicationProtocol**
+  * HTTP
+  * HTPPS
+  * SMTP
+* **TransportProtocol**
+  * TCP
+  * UDP
   
 ## Layout Class
 * **Applicativo : `Layout`**
@@ -56,6 +67,11 @@ Qunado un host riceve un invito a presentarsi dovra' condividere il suo *NAME*
   * aggiunge MAC destinazione e mittente
 * **Fisico : `Layout`**
   * Rallenta l'invio dei pacchetti in relazione al tipo di collegamento dell'host
+
+* **Package Layer**
+  * Segment
+  * Datagram
+  * Frame
 
 ## Host Class
 * **Host**
