@@ -24,7 +24,7 @@ public class Host implements NetDevice {
         this.name = (name.isEmpty() || name.length() > 20)
                 ? "host-" + UUID.randomUUID()
                 : name;
-        this.network = new NetworkCard(this, ip, mac);
+        this.network = new NetworkCard(this, ip, mac, this.name);
     }
 
     /**
@@ -34,7 +34,7 @@ public class Host implements NetDevice {
      */
     public Host(Host ref) {
         this.name = ref.getName();
-        this.network = new NetworkCard(ref, ref.getNetwork().getIP(), ref.getNetwork().getMAC());
+        this.network = new NetworkCard(ref.getNetwork());
     }
 
     // Getter
