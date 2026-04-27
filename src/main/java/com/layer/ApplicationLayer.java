@@ -4,15 +4,14 @@ import com.Interface.Layer;
 import com.Interface.NetDevice;
 import com.Interface.Packet;
 import com.package_layer.Application;
+import com.package_layer.Segment;
 
 public class ApplicationLayer implements Layer {
     private Layer nextLayer;
     private final NetDevice host;
-    private final String hostname;
 
-    public ApplicationLayer(NetDevice host, String hostname) {
+    public ApplicationLayer(NetDevice host) {
         this.host = host;
-        this.hostname = hostname;
     }
 
     public void setNextLayer(Layer transportLayer) {
@@ -37,8 +36,8 @@ public class ApplicationLayer implements Layer {
 
     @Override
     public boolean receive(Packet<?> packet) {
-        if (packet instanceof Application a) {
-            return this.host.onReceiveData(this.hostname, a.getMess());
+        if (packet instanceof Segment a) {
+            return this.host.onReceiveData(a.getPayload().getMess());
         }
         return false;
     }
