@@ -26,11 +26,24 @@ public class Rete implements TransmissionChannel {
     }
 
     @Override
-    public void sendOnWire(Frame frame) {
+    public boolean sendOnWire(Frame frame) {
         for (Host h : this.connected) {
-            if (!h.getNetwork().getMAC().equals(frame.getMACSrc())) {
-                // h.onReceiveData(frame);
+            if (h.getNetwork().getMAC().equals(frame.getMACDest())) {
+                return h.getNetwork().getPhysicsLayer().receive(frame);
             }
         }
+
+        return false;
+    }
+
+    @Override
+    public boolean sendBroadcast(Frame frame) {
+        for (Host h : this.connected) {
+            if (!h.getNetwork().getMAC().equals(frame.getMACSrc())) {
+                h.getNetwork().getPhysicsLayer().receive(frame);
+            }
+        }
+
+        return false;
     }
 }
