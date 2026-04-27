@@ -18,6 +18,15 @@ public class Segment implements Packet<Application> {
         return this.data;
     }
 
+    @Override
+    public String toString() {
+        return "Segment{" +
+                "portSrc=" + portSrc +
+                ", portDest=" + portDest +
+                ", data=" + data +
+                '}'; 
+    }
+
     public int getPortSrc() {
         return this.portSrc;
     }

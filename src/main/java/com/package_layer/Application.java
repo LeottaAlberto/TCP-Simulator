@@ -24,5 +24,11 @@ public class Application implements Packet<Application> {
     public Application getPayload() {
         return this;
     }
-
+    @Override
+    public String toString() {
+        return "Application{" +
+                "mess='" + mess + '\'' +
+                ", prot=" + prot +
+                '}';    
+    }
 }

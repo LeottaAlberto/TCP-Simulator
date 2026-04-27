@@ -26,4 +26,13 @@ public class Frame implements Packet<Datagram> {
         return payload;
     }
 
+    @Override
+    public String toString() {
+        return "Frame{" +
+                "MACSrc='" + MACSrc + '\'' +
+                ", MACDest='" + MACDest + '\'' +
+                ", payload=" + payload +
+                '}'; 
+            }
+
 }

@@ -18,6 +18,15 @@ public class Datagram implements Packet<Segment> {
         return payload;
     }
 
+    @Override
+    public String toString() {
+        return "Datagram{" +
+                "IPsrc='" + IPsrc + '\'' +
+                ", IPDest='" + IPDest + '\'' +
+                ", payload=" + payload +
+                '}'; 
+            }
+
     public String getIPsrc() {
         return IPsrc;
     }
