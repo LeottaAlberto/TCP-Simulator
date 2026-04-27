@@ -22,7 +22,7 @@ public class NetworkCard {
     private String IP;
     private String MAC;
 
-    public NetworkCard(NetDevice ref, String IP, String MAC) {
+    public NetworkCard(NetDevice ref, String IP, String MAC, String hostname) {
         this.ref = ref;
         this.IP = (Check.checkIP_IPV4(IP))
                 ? IP
@@ -33,7 +33,7 @@ public class NetworkCard {
         this.dtLayer = new DatalinkLayer(this.physicsLayer);
         this.netLayer = new NetworkLayer(this.dtLayer);
         this.transLayer = new TransportLayer(this.netLayer);
-        this.appLayer = new ApplicationLayer(this.ref);
+        this.appLayer = new ApplicationLayer(this.ref, hostname);
 
         this.physicsLayer.setNextLayer(dtLayer);
         this.dtLayer.setPrevLayer(netLayer);
