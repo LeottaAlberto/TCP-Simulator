@@ -8,6 +8,7 @@ import com.package_layer.Segment;
 public class NetworkLayer implements Layer {
     private Layer nextLayer;
     private Layer prevLayer;
+    private String IP;
 
     public NetworkLayer(Layer TransportLayer) {
         this.nextLayer = TransportLayer;
@@ -31,7 +32,7 @@ public class NetworkLayer implements Layer {
     @Override
     public void send(Packet<?> packet) {
         if (packet instanceof Segment s) {
-            Datagram d = new Datagram(s, "192.168.1.1", "192.168.1.2");
+            Datagram d = new Datagram(s, "this.IP", "192.168.1.2");
             this.nextLayer.send(d);
         }
     }
@@ -40,5 +41,4 @@ public class NetworkLayer implements Layer {
     public void receive(Packet<?> packet) {
         this.prevLayer.receive(packet);
     }
-
 }

@@ -19,8 +19,10 @@ public class PhysicsLayer implements Layer {
 
     @Override
     public void send(Packet<?> packet) {
-        if (packet != null)
+        if (packet != null) {   
+            System.out.println("Pacchetto Arrivato: " + packet.toString());
             System.out.println("Pacchetto Arrivato: " + packet.getPayload().toString());
+        }
         receive(packet);
     }
 

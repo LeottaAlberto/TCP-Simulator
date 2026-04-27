@@ -8,9 +8,11 @@ import com.package_layer.Application;
 public class ApplicationLayer implements Layer {
     private Layer nextLayer;
     private final NetDevice host;
+    private final String hostname;
 
-    public ApplicationLayer(NetDevice host) {
+    public ApplicationLayer(NetDevice host, String hostname) {
         this.host = host;
+        this.hostname = hostname;
     }
 
     public void setNextLayer(Layer transportLayer) {
@@ -35,7 +37,7 @@ public class ApplicationLayer implements Layer {
     @Override
     public void receive(Packet<?> packet) {
         if (packet instanceof Application a) {
-            this.host.onReceiveData("pc-1", a.getMess());
+            this.host.onReceiveData(this.hostname, a.getMess());
         }
     }
 

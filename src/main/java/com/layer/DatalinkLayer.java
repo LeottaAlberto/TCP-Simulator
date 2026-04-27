@@ -38,7 +38,9 @@ public class DatalinkLayer implements Layer {
 
     @Override
     public void receive(Packet<?> packet) {
-        this.prevLayer.receive(packet);
+        if (packet instanceof Frame f) {
+            this.prevLayer.receive(f.getPayload());
+        }
     }
 
 }

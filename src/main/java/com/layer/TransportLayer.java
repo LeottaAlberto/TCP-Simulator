@@ -23,13 +23,15 @@ public class TransportLayer implements Layer {
     @Override
     public void send(Packet<?> packet) {
         if (packet instanceof Application a) {
-            Segment s = new Segment(a, 80, 80);
-            this.nextLayer.send(s);
+            int port = a.getProt().getPort();
+            this.nextLayer.send(new Segment(a, port, port));
         }
     }
 
     @Override
     public void receive(Packet<?> packet) {
-        this.prevLayer.receive(packet);
+        if (packet instanceof Segment s) {
+            this.prevLayer.receive(s.getPayload());
+        }
     }
 }
