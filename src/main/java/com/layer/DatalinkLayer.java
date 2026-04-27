@@ -1,7 +1,5 @@
 package com.layer;
 
-import java.util.HashMap;
-
 import com.Interface.Layer;
 import com.Interface.Packet;
 import com.package_layer.Datagram;
@@ -10,13 +8,13 @@ import com.package_layer.Frame;
 public class DatalinkLayer implements Layer {
     private final Layer nextLayer;
     private final String sourceMAC;
-    private final HashMap<String, String> ARPCache;
+    // private final HashMap<String, String> ARPCache;
     private Layer prevLayer;
 
     public DatalinkLayer(Layer physicalLayer, String MAC) {
         this.nextLayer = physicalLayer;
         this.sourceMAC = MAC;
-        this.ARPCache = new HashMap<>();
+        // this.ARPCache = new HashMap<>();
     }
 
     public void setPrevLayer(Layer networkLayer) {
@@ -34,17 +32,23 @@ public class DatalinkLayer implements Layer {
         return this.prevLayer;
     }
 
-    public void ARP(String IP) {
-
-    }
+    // public void ARP(Datagram data, String IP) {
+    // var f = new Frame(
+    // new Datagram(new Segment(new Application("Are You?",
+    // ApplicationProtocol.HTTPS),
+    // data.getPayload().getPortSrc(),
+    // data.getPayload().getPortDest()), data.getIPsrc(), data.getIPDest(), true),
+    // this.sourceMAC, "FF:FF:FF:FF:FF:FF");
+    // }
 
     @Override
     public boolean send(Packet<?> packet) {
         if (packet instanceof Datagram d) {
             // if (!this.ARPCache.containsKey(d.getIPDest()))
-            // return false;
+            // ARP(d.getIPDest());
 
-            return this.nextLayer.send(new Frame(d, this.sourceMAC, this.ARPCache.get(d.getIPDest())));
+            return this.nextLayer
+                    .send(new Frame(d, this.sourceMAC, "0A.1B.2C.3F"/* this.ARPCache.get(d.getIPDest()) */));
         }
 
         return false;
