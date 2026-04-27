@@ -6,12 +6,14 @@ import com.package_layer.Datagram;
 import com.package_layer.Segment;
 
 public class NetworkLayer implements Layer {
-    private Layer nextLayer;
+    private final Layer nextLayer;
+    private final String sourceIP;
     private Layer prevLayer;
-    private String IP;
+    private String destIP;
 
-    public NetworkLayer(Layer TransportLayer) {
+    public NetworkLayer(Layer TransportLayer, String IP) {
         this.nextLayer = TransportLayer;
+        this.sourceIP = IP;
     }
 
     public void setPrevLayer(Layer transportLayer) {
@@ -30,15 +32,22 @@ public class NetworkLayer implements Layer {
     }
 
     @Override
-    public void send(Packet<?> packet) {
+    public boolean send(Packet<?> packet) {
         if (packet instanceof Segment s) {
-            Datagram d = new Datagram(s, "this.IP", "192.168.1.2");
-            this.nextLayer.send(d);
+            // if (destIP == null)
+            // return false;
+
+            return this.nextLayer.send(new Datagram(s, this.sourceIP, this.destIP));
         }
+        return false;
     }
 
     @Override
-    public void receive(Packet<?> packet) {
-        this.prevLayer.receive(packet);
+    public boolean receive(Packet<?> packet) {
+        return this.prevLayer.receive(packet);
+    }
+
+    public void setDestIp(String IP) {
+        this.destIP = IP;
     }
 }

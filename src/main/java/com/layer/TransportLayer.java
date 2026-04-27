@@ -6,7 +6,7 @@ import com.package_layer.Application;
 import com.package_layer.Segment;
 
 public class TransportLayer implements Layer {
-    private Layer nextLayer;
+    private final Layer nextLayer;
     private Layer prevLayer;
 
     public TransportLayer(Layer networkLayer) {
@@ -21,17 +21,21 @@ public class TransportLayer implements Layer {
     }
 
     @Override
-    public void send(Packet<?> packet) {
+    public boolean send(Packet<?> packet) {
         if (packet instanceof Application a) {
             int port = a.getProt().getPort();
-            this.nextLayer.send(new Segment(a, port, port));
+            return this.nextLayer.send(new Segment(a, port, port));
         }
+
+        return false;
     }
 
     @Override
-    public void receive(Packet<?> packet) {
+    public boolean receive(Packet<?> packet) {
         if (packet instanceof Segment s) {
-            this.prevLayer.receive(s.getPayload());
+            return this.prevLayer.receive(s.getPayload());
         }
+
+        return false;
     }
 }

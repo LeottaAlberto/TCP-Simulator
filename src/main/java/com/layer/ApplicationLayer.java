@@ -28,17 +28,19 @@ public class ApplicationLayer implements Layer {
     }
 
     @Override
-    public void send(Packet<?> packet) {
+    public boolean send(Packet<?> packet) {
         if (packet instanceof Application a) {
-            this.nextLayer.send(a);
+            return this.nextLayer.send(a);
         }
+        return false;
     }
 
     @Override
-    public void receive(Packet<?> packet) {
+    public boolean receive(Packet<?> packet) {
         if (packet instanceof Application a) {
-            this.host.onReceiveData(this.hostname, a.getMess());
+            return this.host.onReceiveData(this.hostname, a.getMess());
         }
+        return false;
     }
 
 }

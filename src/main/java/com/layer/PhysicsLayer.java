@@ -2,9 +2,16 @@ package com.layer;
 
 import com.Interface.Layer;
 import com.Interface.Packet;
+import com.Interface.TransmissionChannel;
+import com.package_layer.Frame;
 
 public class PhysicsLayer implements Layer {
+    private final TransmissionChannel channel;
     private Layer dataLinkLayer;
+
+    public PhysicsLayer(TransmissionChannel channel) {
+        this.channel = channel;
+    }
 
     public void setNextLayer(Layer dataLinkLayer) {
         if (dataLinkLayer == null)
@@ -18,16 +25,16 @@ public class PhysicsLayer implements Layer {
     }
 
     @Override
-    public void send(Packet<?> packet) {
-        if (packet != null) {   
-            System.out.println("Pacchetto Arrivato: " + packet.toString());
-            System.out.println("Pacchetto Arrivato: " + packet.getPayload().toString());
+    public boolean send(Packet<?> packet) {
+        if (packet instanceof Frame f) {
+            System.out.println("Pacchetto in fase di invio: " + packet.toString());
+            this.channel.sendOnWire(f);
         }
-        receive(packet);
+        return false;
     }
 
     @Override
-    public void receive(Packet<?> packet) {
-        this.dataLinkLayer.receive(packet);
+    public boolean receive(Packet<?> packet) {
+        return this.dataLinkLayer.receive(packet);
     }
 }

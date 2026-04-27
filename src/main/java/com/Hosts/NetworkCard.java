@@ -2,6 +2,7 @@ package com.Hosts;
 
 import com.Enums.ApplicationProtocol;
 import com.Interface.NetDevice;
+import com.Interface.TransmissionChannel;
 import com.Utility.Check;
 import com.Utility.Generate;
 import com.layer.ApplicationLayer;
@@ -22,16 +23,16 @@ public class NetworkCard {
     private String IP;
     private String MAC;
 
-    public NetworkCard(NetDevice ref, String IP, String MAC, String hostname) {
+    public NetworkCard(NetDevice ref, String IP, String MAC, String hostname, TransmissionChannel channel) {
         this.ref = ref;
         this.IP = (Check.checkIP_IPV4(IP))
                 ? IP
                 : Generate.nextIP();
         this.MAC = MAC;
 
-        this.physicsLayer = new PhysicsLayer();
-        this.dtLayer = new DatalinkLayer(this.physicsLayer);
-        this.netLayer = new NetworkLayer(this.dtLayer);
+        this.physicsLayer = new PhysicsLayer(channel);
+        this.dtLayer = new DatalinkLayer(this.physicsLayer, this.MAC);
+        this.netLayer = new NetworkLayer(this.dtLayer, this.IP);
         this.transLayer = new TransportLayer(this.netLayer);
         this.appLayer = new ApplicationLayer(this.ref, hostname);
 
@@ -98,7 +99,6 @@ public class NetworkCard {
     }
 
     public void dataEncapsulation(String message, ApplicationProtocol protocol) {
-        Application a = new Application(message, protocol);
-        this.appLayer.send(a);
+        this.appLayer.send(new Application(message, protocol));
     }
 }

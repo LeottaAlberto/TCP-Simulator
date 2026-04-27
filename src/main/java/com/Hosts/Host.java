@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import com.Enums.ApplicationProtocol;
 import com.Interface.NetDevice;
+import com.Interface.TransmissionChannel;
 
 public class Host implements NetDevice {
     public static final int MAX_HOST_NAME_LENGTH = 20;
@@ -11,6 +12,7 @@ public class Host implements NetDevice {
     private String name;
     private boolean status;
     private NetworkCard network;
+    private TransmissionChannel channel;
 
     /**
      * Normal constructor
@@ -20,11 +22,12 @@ public class Host implements NetDevice {
      * @param ip   is a string like this 192.168.100.234
      * @param mac  is a string like this E4-60-17-3A-6F-6E
      */
-    public Host(String name, String ip, String mac) {
+    public Host(String name, String ip, String mac, TransmissionChannel channel) {
         this.name = (name.isEmpty() || name.length() > 20)
                 ? "host-" + UUID.randomUUID()
                 : name;
-        this.network = new NetworkCard(this, ip, mac, this.name);
+        this.channel = channel;
+        this.network = new NetworkCard(this, ip, mac, this.name, this.channel);
     }
 
     /**
@@ -86,15 +89,20 @@ public class Host implements NetDevice {
     }
 
     @Override
-    public void onReceiveData(String hostname, String data) {
+    public boolean onReceiveData(String hostname, String data) {
+        if (data == null)
+            return false;
+
         System.out.println(this.name
                 + " received by: "
                 + hostname
                 + " this data: "
                 + data);
+
+        return true;
     }
 
-    public void sendMessage(String mess) {
+    public void sendMessage(String mess, String IP) {
         if (mess.isBlank())
             return;
 

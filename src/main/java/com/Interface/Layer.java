@@ -1,7 +1,7 @@
 package com.Interface;
 
 public interface Layer {
-    public void send(Packet<?> packet);
+    public boolean send(Packet<?> packet);
 
-    public void receive(Packet<?> packet);
+    public boolean receive(Packet<?> packet);
 }
