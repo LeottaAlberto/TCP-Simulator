@@ -36,7 +36,7 @@ public class NetworkLayer implements Layer {
         if (packet instanceof Segment s) {
             // if (destIP == null)
             // return false;
-
+            this.destIP = "192.168.12.2";
             return this.nextLayer.send(new Datagram(s, this.sourceIP, this.destIP));
         }
         return false;

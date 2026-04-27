@@ -3,6 +3,7 @@ package com.layer;
 import com.Interface.Layer;
 import com.Interface.Packet;
 import com.package_layer.Application;
+import com.package_layer.Datagram;
 import com.package_layer.Segment;
 
 public class TransportLayer implements Layer {
@@ -32,7 +33,7 @@ public class TransportLayer implements Layer {
 
     @Override
     public boolean receive(Packet<?> packet) {
-        if (packet instanceof Segment s) {
+        if (packet instanceof Datagram s) {
             return this.prevLayer.receive(s.getPayload());
         }
 

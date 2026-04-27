@@ -28,7 +28,7 @@ public class PhysicsLayer implements Layer {
     public boolean send(Packet<?> packet) {
         if (packet instanceof Frame f) {
             System.out.println("Pacchetto in fase di invio: " + packet.toString());
-            this.channel.sendOnWire(f);
+            return this.channel.sendOnWire(f);
         }
         return false;
     }
