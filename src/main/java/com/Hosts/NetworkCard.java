@@ -23,7 +23,7 @@ public class NetworkCard {
     private String IP;
     private String MAC;
 
-    public NetworkCard(NetDevice ref, String IP, String MAC, String hostname, TransmissionChannel channel) {
+    public NetworkCard(NetDevice ref, String IP, String MAC, TransmissionChannel channel) {
         this.ref = ref;
         this.IP = (Check.checkIP_IPV4(IP))
                 ? IP
@@ -34,7 +34,7 @@ public class NetworkCard {
         this.dtLayer = new DatalinkLayer(this.physicsLayer, this.MAC);
         this.netLayer = new NetworkLayer(this.dtLayer, this.IP);
         this.transLayer = new TransportLayer(this.netLayer);
-        this.appLayer = new ApplicationLayer(this.ref, hostname);
+        this.appLayer = new ApplicationLayer(this.ref);
 
         this.physicsLayer.setNextLayer(dtLayer);
         this.dtLayer.setPrevLayer(netLayer);
@@ -95,10 +95,10 @@ public class NetworkCard {
     }
 
     public void dataDecapsulation(String frame) {
-        this.ref.onReceiveData(frame, MAC);
+        this.ref.onReceiveData(MAC);
     }
 
-    public void dataEncapsulation(String message, ApplicationProtocol protocol) {
-        this.appLayer.send(new Application(message, protocol));
+    public boolean dataEncapsulation(String message, ApplicationProtocol protocol) {
+        return this.appLayer.send(new Application(message, protocol));
     }
 }
