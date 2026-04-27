@@ -27,7 +27,7 @@ public class Host implements NetDevice {
                 ? "host-" + UUID.randomUUID()
                 : name;
         this.channel = channel;
-        this.network = new NetworkCard(this, ip, mac, this.name, this.channel);
+        this.network = new NetworkCard(this, ip, mac, this.channel);
     }
 
     /**
@@ -89,14 +89,12 @@ public class Host implements NetDevice {
     }
 
     @Override
-    public boolean onReceiveData(String hostname, String data) {
+    public boolean onReceiveData(String data) {
         if (data == null)
             return false;
 
         System.out.println(this.name
-                + " received by: "
-                + hostname
-                + " this data: "
+                + " received: "
                 + data);
 
         return true;
@@ -106,6 +104,11 @@ public class Host implements NetDevice {
         if (mess.isBlank())
             return;
 
-        this.network.dataEncapsulation(mess, ApplicationProtocol.HTTPS);
+        var a = this.network.dataEncapsulation(mess, ApplicationProtocol.HTTPS);
+
+        if (a)
+            System.out.println("ACK di conferma ricezione");
+        else
+            System.out.println("ACK NON arrivato");
     }
 }
