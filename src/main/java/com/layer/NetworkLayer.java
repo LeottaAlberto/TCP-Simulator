@@ -1,7 +1,7 @@
 package com.layer;
 
 import com.Interface.Layer;
-import com.Interface.Packet;
+import com.Interface.PDU;
 import com.package_layer.Datagram;
 import com.package_layer.Segment;
 
@@ -32,7 +32,7 @@ public class NetworkLayer implements Layer {
     }
 
     @Override
-    public boolean send(Packet<?> packet) {
+    public boolean send(PDU<?> packet) {
         if (packet instanceof Segment s) {
             // if (destIP == null)
             // return false;
@@ -43,7 +43,7 @@ public class NetworkLayer implements Layer {
     }
 
     @Override
-    public boolean receive(Packet<?> packet) {
+    public boolean receive(PDU<?> packet) {
         return this.prevLayer.receive(packet);
     }
 

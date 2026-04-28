@@ -1,8 +1,8 @@
 package com.package_layer;
 
-import com.Interface.Packet;
+import com.Interface.PDU;
 
-public class Frame implements Packet<Datagram> {
+public class Frame implements PDU<Datagram> {
     private final String MACSrc;
     private final String MACDest;
     private final Datagram payload;

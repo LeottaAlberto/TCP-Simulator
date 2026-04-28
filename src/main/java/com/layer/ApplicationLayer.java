@@ -2,7 +2,7 @@ package com.layer;
 
 import com.Interface.Layer;
 import com.Interface.NetDevice;
-import com.Interface.Packet;
+import com.Interface.PDU;
 import com.package_layer.Application;
 import com.package_layer.Segment;
 
@@ -27,7 +27,7 @@ public class ApplicationLayer implements Layer {
     }
 
     @Override
-    public boolean send(Packet<?> packet) {
+    public boolean send(PDU<?> packet) {
         if (packet instanceof Application a) {
             return this.nextLayer.send(a);
         }
@@ -35,7 +35,7 @@ public class ApplicationLayer implements Layer {
     }
 
     @Override
-    public boolean receive(Packet<?> packet) {
+    public boolean receive(PDU<?> packet) {
         if (packet instanceof Segment a) {
             return this.host.onReceiveData(a.getPayload().getMess());
         }

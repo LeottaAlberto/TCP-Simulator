@@ -14,8 +14,10 @@ public class Check {
 
         if (IP.isBlank())
             return false;
+        
         if (IP.length() < MIN_IP_LENGTH)
             return false;
+
         if (IP.length() > MAX_IP_LENGTH)
             return false;
 

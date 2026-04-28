@@ -1,8 +1,8 @@
 package com.package_layer;
 
-import com.Interface.Packet;
+import com.Interface.PDU;
 
-public class Segment implements Packet<Application> {
+public class Segment implements PDU<Application> {
     private final int portSrc;
     private final int portDest;
     private final Application data;

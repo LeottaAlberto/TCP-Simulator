@@ -1,7 +1,7 @@
 package com.layer;
 
 import com.Interface.Layer;
-import com.Interface.Packet;
+import com.Interface.PDU;
 import com.package_layer.Application;
 import com.package_layer.Datagram;
 import com.package_layer.Segment;
@@ -22,7 +22,7 @@ public class TransportLayer implements Layer {
     }
 
     @Override
-    public boolean send(Packet<?> packet) {
+    public boolean send(PDU<?> packet) {
         if (packet instanceof Application a) {
             int port = a.getProt().getPort();
             return this.nextLayer.send(new Segment(a, port, port));
@@ -32,7 +32,7 @@ public class TransportLayer implements Layer {
     }
 
     @Override
-    public boolean receive(Packet<?> packet) {
+    public boolean receive(PDU<?> packet) {
         if (packet instanceof Datagram s) {
             return this.prevLayer.receive(s.getPayload());
         }

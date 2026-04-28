@@ -1,7 +1,7 @@
 package com.layer;
 
 import com.Interface.Layer;
-import com.Interface.Packet;
+import com.Interface.PDU;
 import com.package_layer.Datagram;
 import com.package_layer.Frame;
 
@@ -42,20 +42,20 @@ public class DatalinkLayer implements Layer {
     // }
 
     @Override
-    public boolean send(Packet<?> packet) {
+    public boolean send(PDU<?> packet) {
         if (packet instanceof Datagram d) {
             // if (!this.ARPCache.containsKey(d.getIPDest()))
             // ARP(d.getIPDest());
 
             return this.nextLayer
-                    .send(new Frame(d, this.sourceMAC, "0A.1B.2C.3F"/* this.ARPCache.get(d.getIPDest()) */));
+                    .send(new Frame(d, this.sourceMAC, "82:F9:12:0B:AC:34"/* this.ARPCache.get(d.getIPDest()) */));
         }
 
         return false;
     }
 
     @Override
-    public boolean receive(Packet<?> packet) {
+    public boolean receive(PDU<?> packet) {
         if (packet instanceof Frame f) {
             return this.prevLayer.receive(f.getPayload());
         }

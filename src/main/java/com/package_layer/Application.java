@@ -1,9 +1,9 @@
 package com.package_layer;
 
 import com.Enums.ApplicationProtocol;
-import com.Interface.Packet;
+import com.Interface.PDU;
 
-public class Application implements Packet<Application> {
+public class Application implements PDU<Application> {
     private final String mess;
     private final ApplicationProtocol prot;
 

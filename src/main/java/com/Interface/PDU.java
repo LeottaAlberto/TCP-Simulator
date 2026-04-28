@@ -1,6 +1,6 @@
 package com.Interface;
 
-public interface Packet<T> {
+public interface PDU<T> {
     T getPayload();
     @Override
     String toString();

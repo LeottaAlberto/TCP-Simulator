@@ -1,8 +1,8 @@
 package com.package_layer;
 
-import com.Interface.Packet;
+import com.Interface.PDU;
 
-public class Datagram implements Packet<Segment> {
+public class Datagram implements PDU<Segment> {
     private final String IPsrc;
     private final String IPDest;
     private final Segment payload;

@@ -1,7 +1,7 @@
 package com.layer;
 
 import com.Interface.Layer;
-import com.Interface.Packet;
+import com.Interface.PDU;
 import com.Interface.TransmissionChannel;
 import com.package_layer.Frame;
 
@@ -25,7 +25,7 @@ public class PhysicsLayer implements Layer {
     }
 
     @Override
-    public boolean send(Packet<?> packet) {
+    public boolean send(PDU<?> packet) {
         if (packet instanceof Frame f) {
             System.out.println("Pacchetto in fase di invio: " + packet.toString());
             return this.channel.sendOnWire(f);
@@ -34,7 +34,7 @@ public class PhysicsLayer implements Layer {
     }
 
     @Override
-    public boolean receive(Packet<?> packet) {
+    public boolean receive(PDU<?> packet) {
         return this.dataLinkLayer.receive(packet);
     }
 }
