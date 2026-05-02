@@ -100,13 +100,13 @@ public class Host implements NetDevice {
         return true;
     }
 
-    public void sendMessage(String mess, String IP) {
+    public void sendMessage(String mess, String IP, boolean isBroadcast) {
         if (mess.isBlank())
             return;
 
-        var a = this.network.dataEncapsulation(mess, ApplicationProtocol.HTTPS);
+        var ack = this.network.dataEncapsulation(mess, ApplicationProtocol.HTTPS, IP, isBroadcast);
 
-        if (a)
+        if (ack)
             System.out.println("ACK di conferma ricezione");
         else
             System.out.println("ACK NON arrivato");
