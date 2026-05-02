@@ -27,9 +27,9 @@ public class ApplicationLayer implements Layer {
     }
 
     @Override
-    public boolean send(PDU<?> packet) {
+    public boolean send(PDU<?> packet, boolean isBroadcast) {
         if (packet instanceof Application a) {
-            return this.nextLayer.send(a);
+            return this.nextLayer.send(a, isBroadcast);
         }
         return false;
     }

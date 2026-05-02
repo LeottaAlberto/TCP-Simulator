@@ -42,13 +42,13 @@ public class DatalinkLayer implements Layer {
     // }
 
     @Override
-    public boolean send(PDU<?> packet) {
+    public boolean send(PDU<?> packet, boolean isBroadcast) {
         if (packet instanceof Datagram d) {
             // if (!this.ARPCache.containsKey(d.getIPDest()))
             // ARP(d.getIPDest());
 
             return this.nextLayer
-                    .send(new Frame(d, this.sourceMAC, "82:F9:12:0B:AC:34"/* this.ARPCache.get(d.getIPDest()) */));
+                    .send(new Frame(d, this.sourceMAC, "82:F9:12:0B:AC:34"/* this.ARPCache.get(d.getIPDest()) */), isBroadcast);
         }
 
         return false;
