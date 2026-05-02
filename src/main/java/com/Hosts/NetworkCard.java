@@ -98,7 +98,8 @@ public class NetworkCard {
         this.ref.onReceiveData(MAC);
     }
 
-    public boolean dataEncapsulation(String message, ApplicationProtocol protocol) {
-        return this.appLayer.send(new Application(message, protocol));
+    public boolean dataEncapsulation(String message, ApplicationProtocol protocol, String IP, boolean isBroadcast) {
+        this.netLayer.setDestIp(IP);
+        return this.appLayer.send(new Application(message, protocol), isBroadcast);
     }
 }
