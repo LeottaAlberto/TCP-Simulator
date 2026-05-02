@@ -1,13 +1,13 @@
 package com.tcpsimulator;
 
 import com.Hosts.Host;
-import com.Hosts.Rete;
+import com.Hosts.LAN;
 
 public class Main {
     public static void main(String[] args) {
         System.out.println("Inizializzazione del simulatore TCP/IP");
 
-        Rete network = new Rete();
+        LAN network = new LAN();
 
         Host host = new Host("PC-1", "192.168.12.1", "4A:1B:C3:94:5E:7D", network);
         /* host.switchStatus();

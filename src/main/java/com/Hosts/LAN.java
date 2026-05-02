@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import com.Interface.TransmissionChannel;
 import com.package_layer.Frame;
 
-public class Rete implements TransmissionChannel {
+public class LAN implements TransmissionChannel {
     private final ArrayList<Host> connected;
 
-    public Rete() {
+    public LAN() {
         this.connected = new ArrayList<>();
     }
 
@@ -28,7 +28,7 @@ public class Rete implements TransmissionChannel {
     @Override
     public boolean sendOnWire(Frame frame) {
         for (Host h : this.connected) {
-            if (h.getNetwork().getMAC().equals(frame.getMACDest())) {
+            if (h.isStatus() && h.getNetwork().getMAC().equals(frame.getMACDest())) {
                 return h.getNetwork().getPhysicsLayer().receive(frame);
             }
         }
@@ -38,12 +38,19 @@ public class Rete implements TransmissionChannel {
 
     @Override
     public boolean sendBroadcast(Frame frame) {
+        int count = 0;
         for (Host h : this.connected) {
+            if (!h.isStatus())
+                continue;
+
             if (!h.getNetwork().getMAC().equals(frame.getMACSrc())) {
                 h.getNetwork().getPhysicsLayer().receive(frame);
             }
+            count++;
         }
 
-        return false;
+        System.out.println("Il frame è stato inviato a " + count + " host");
+
+        return true;
     }
 }
