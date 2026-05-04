@@ -25,16 +25,16 @@ public class PhysicsLayer implements Layer {
     }
 
     @Override
-    public boolean send(PDU<?> packet, boolean isBroadcast) {
-        if (packet instanceof Frame f) {
-            System.out.println("Pacchetto in fase di invio: " + packet.toString());
-            return (isBroadcast) ? this.channel.sendBroadcast(f) :  this.channel.sendOnWire(f);
+    public boolean send(PDU<?> pdu, boolean isBroadcast) {
+        if (pdu instanceof Frame f) {
+            System.out.println("Pacchetto in fase di invio: " + pdu.toString());
+            return (f.getMACDest().equals("FF:FF:FF:FF:FF:FF")) ? this.channel.sendBroadcast(f) :  this.channel.sendOnWire(f);
         }
         return false;
     }
 
     @Override
-    public boolean receive(PDU<?> packet) {
-        return this.dataLinkLayer.receive(packet);
+    public boolean receive(PDU<?> pdu) {
+        return this.dataLinkLayer.receive(pdu);
     }
 }
