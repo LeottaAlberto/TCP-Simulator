@@ -22,8 +22,8 @@ public class TransportLayer implements Layer {
     }
 
     @Override
-    public boolean send(PDU<?> packet, boolean isBroadcast) {
-        if (packet instanceof Application a) {
+    public boolean send(PDU<?> pdu, boolean isBroadcast) {
+        if (pdu instanceof Application a) {
             int port = a.getProt().getPort();
             return this.nextLayer.send(new Segment(a, port, port), isBroadcast);
         }
@@ -32,8 +32,8 @@ public class TransportLayer implements Layer {
     }
 
     @Override
-    public boolean receive(PDU<?> packet) {
-        if (packet instanceof Datagram s) {
+    public boolean receive(PDU<?> pdu) {
+        if (pdu instanceof Datagram s) {
             return this.prevLayer.receive(s.getPayload());
         }
 
