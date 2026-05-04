@@ -1,5 +1,8 @@
 package com.Hosts;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import com.Enums.ApplicationProtocol;
 import com.Interface.NetDevice;
 import com.Interface.TransmissionChannel;
@@ -14,11 +17,14 @@ import com.package_layer.Application;
 
 public class NetworkCard {
 
+    private final ExecutorService executor = Executors.newFixedThreadPool(10);
+
     private final PhysicsLayer physicsLayer;
     private final DatalinkLayer dtLayer;
     private final NetworkLayer netLayer;
     private final TransportLayer transLayer;
     private final ApplicationLayer appLayer;
+    
     private final NetDevice ref;
     private String IP;
     private String MAC;
@@ -99,7 +105,12 @@ public class NetworkCard {
     }
 
     public boolean dataEncapsulation(String message, ApplicationProtocol protocol, String IP, boolean isBroadcast) {
-        this.netLayer.setDestIp(IP);
-        return this.appLayer.send(new Application(message, protocol), isBroadcast);
+        
+        this.executor.submit(() -> {
+            this.netLayer.setDestIp(IP);
+            return this.appLayer.send(new Application(message, protocol), isBroadcast);
+        });
+
+        return false;
     }
 }
