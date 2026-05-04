@@ -25,7 +25,7 @@ public class PhysicsLayer implements Layer {
     }
 
     @Override
-    public boolean send(PDU<?> pdu, boolean isBroadcast) {
+    public boolean send(PDU<?> pdu) {
         if (pdu instanceof Frame f) {
             System.out.println("Pacchetto in fase di invio: " + pdu.toString());
             return (f.getMACDest().equals("FF:FF:FF:FF:FF:FF")) ? this.channel.sendBroadcast(f) :  this.channel.sendOnWire(f);

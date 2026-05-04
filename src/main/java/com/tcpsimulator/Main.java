@@ -9,7 +9,7 @@ public class Main {
 
         LAN network = new LAN();
 
-        Host host = new Host("PC-1", "192.168.12.1", "4A:1B:C3:94:5E:7D", network);
+        // Host host = new Host("PC-1", "192.168.12.1", "4A:1B:C3:94:5E:7D", network);
         /* host.switchStatus();
 
         Host host2 = new Host("PC-2", "192.168.12.2", "82:F9:12:0B:AC:34", network);
@@ -30,7 +30,9 @@ public class Main {
             network.connect(hosts[i]);
         }
 
-        // host.sendMessage("Ciao", host2.getNetwork().getIP(), false);
-        hosts[0].sendMessage("Ciao a tutti sono il PC-0", null, true);
+        if (!hosts[2].isStatus()) hosts[2].switchStatus();
+
+        // host.sendMessage("Ciao", host2.getNetwork().getIP());
+        hosts[0].sendMessage("Ciao sono il PC-0", hosts[2].getNetwork().getIP());
     }
 }

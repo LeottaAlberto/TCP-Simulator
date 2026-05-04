@@ -28,9 +28,9 @@ public class ApplicationLayer implements Layer {
     }
 
     @Override
-    public boolean send(PDU<?> pdu, boolean isBroadcast) {
+    public boolean send(PDU<?> pdu) {
         if (pdu instanceof Application a) {
-            return this.nextLayer.send(a, isBroadcast);
+            return this.nextLayer.send(a);
         }
         return false;
     }
@@ -40,7 +40,7 @@ public class ApplicationLayer implements Layer {
         if (pdu instanceof Segment a) {
             if (a.getPayload().getMess().equals("ARP_REQUEST")) {
                 System.out.println("Ricevuto messaggio di ARP: " + a.getPayload().getMess());
-                return this.nextLayer.send(new Application("ARP_REPLAY", ApplicationProtocol.HTTPS), false);
+                return this.nextLayer.send(new Application("ARP_REPLAY", ApplicationProtocol.HTTPS));
             }
 
             return this.host.onReceiveData(a.getPayload().getMess());

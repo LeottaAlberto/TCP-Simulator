@@ -63,19 +63,19 @@ public class DatalinkLayer implements Layer {
             this.sourceMAC, "FF:FF:FF:FF:FF:FF"
         );
 
-        this.nextLayer.send(f, true);
+        this.nextLayer.send(f);
 
         return promessaMac;
     }
 
     @Override
-    public boolean send(PDU<?> pdu, boolean isBroadcast) {
+    public boolean send(PDU<?> pdu) {
         if (pdu instanceof Datagram d) {
             if (!this.ARPCache.containsKey(d.getIPDest()))
                 ARP(d, d.getIPDest());
 
             return this.nextLayer
-                    .send(new Frame(d, this.sourceMAC, this.ARPCache.get(d.getIPDest())), isBroadcast);
+                    .send(new Frame(d, this.sourceMAC, this.ARPCache.get(d.getIPDest())));
         }
 
         return false;

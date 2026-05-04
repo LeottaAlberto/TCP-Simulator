@@ -104,11 +104,11 @@ public class NetworkCard {
         this.ref.onReceiveData(MAC);
     }
 
-    public boolean dataEncapsulation(String message, ApplicationProtocol protocol, String IP, boolean isBroadcast) {
+    public boolean dataEncapsulation(String message, ApplicationProtocol protocol, String IP) {
         
         this.executor.submit(() -> {
             this.netLayer.setDestIp(IP);
-            return this.appLayer.send(new Application(message, protocol), isBroadcast);
+            return this.appLayer.send(new Application(message, protocol));
         });
 
         return false;

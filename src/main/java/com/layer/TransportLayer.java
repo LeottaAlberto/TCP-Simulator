@@ -22,10 +22,10 @@ public class TransportLayer implements Layer {
     }
 
     @Override
-    public boolean send(PDU<?> pdu, boolean isBroadcast) {
+    public boolean send(PDU<?> pdu) {
         if (pdu instanceof Application a) {
             int port = a.getProt().getPort();
-            return this.nextLayer.send(new Segment(a, port, port), isBroadcast);
+            return this.nextLayer.send(new Segment(a, port, port));
         }
 
         return false;

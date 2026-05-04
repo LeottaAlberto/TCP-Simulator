@@ -32,11 +32,11 @@ public class NetworkLayer implements Layer {
     }
 
     @Override
-    public boolean send(PDU<?> pdu, boolean isBroadcast) {
+    public boolean send(PDU<?> pdu) {
         if (pdu instanceof Segment s) {
-            if (this.destIP == null && !isBroadcast)
+            if (this.destIP == null)
                 return false;
-            return this.nextLayer.send(new Datagram(s, this.sourceIP, this.destIP), isBroadcast);
+            return this.nextLayer.send(new Datagram(s, this.sourceIP, this.destIP));
         }
         return false;
     }
