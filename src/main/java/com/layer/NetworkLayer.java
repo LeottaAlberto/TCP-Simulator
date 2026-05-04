@@ -32,8 +32,8 @@ public class NetworkLayer implements Layer {
     }
 
     @Override
-    public boolean send(PDU<?> packet, boolean isBroadcast) {
-        if (packet instanceof Segment s) {
+    public boolean send(PDU<?> pdu, boolean isBroadcast) {
+        if (pdu instanceof Segment s) {
             if (this.destIP == null && !isBroadcast)
                 return false;
             return this.nextLayer.send(new Datagram(s, this.sourceIP, this.destIP), isBroadcast);
@@ -42,8 +42,13 @@ public class NetworkLayer implements Layer {
     }
 
     @Override
-    public boolean receive(PDU<?> packet) {
-        return this.prevLayer.receive(packet);
+    public boolean receive(PDU<?> pdu) {
+        if (pdu instanceof Datagram d) { 
+            if (!d.getIPDest().equals(this.sourceIP))
+                return false;
+            return this.prevLayer.receive(pdu);
+        }
+        return false;
     }
 
     public void setDestIp(String IP) {
