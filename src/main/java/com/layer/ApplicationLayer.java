@@ -1,5 +1,6 @@
 package com.layer;
 
+import com.Enums.ApplicationProtocol;
 import com.Interface.Layer;
 import com.Interface.NetDevice;
 import com.Interface.PDU;
@@ -27,16 +28,21 @@ public class ApplicationLayer implements Layer {
     }
 
     @Override
-    public boolean send(PDU<?> packet, boolean isBroadcast) {
-        if (packet instanceof Application a) {
+    public boolean send(PDU<?> pdu, boolean isBroadcast) {
+        if (pdu instanceof Application a) {
             return this.nextLayer.send(a, isBroadcast);
         }
         return false;
     }
 
     @Override
-    public boolean receive(PDU<?> packet) {
-        if (packet instanceof Segment a) {
+    public boolean receive(PDU<?> pdu) {
+        if (pdu instanceof Segment a) {
+            if (a.getPayload().getMess().equals("ARP_REQUEST")) {
+                System.out.println("Ricevuto messaggio di ARP: " + a.getPayload().getMess());
+                return this.nextLayer.send(new Application("ARP_REPLAY", ApplicationProtocol.HTTPS), false);
+            }
+
             return this.host.onReceiveData(a.getPayload().getMess());
         }
         return false;
