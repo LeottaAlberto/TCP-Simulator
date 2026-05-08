@@ -85,26 +85,24 @@ public class DatalinkLayer implements Layer {
     public boolean receive(PDU<?> pdu) {
         if (pdu instanceof Frame f) {
 
-            if (isArpReply(f)) {
-        
-                // Estrai i dati dal pacchetto di risposta
-                String ipMittente = f.getPayload().getIPsrc();
-                String macMittente = f.getMACSrc();
-
-                // 2. Controlliamo se qualcuno stava aspettando questo IP
-                CompletableFuture<String> promessa = richiesteArpInSospeso.remove(ipMittente);
-
-                if (promessa != null) {
-                    System.out.println("Risposta ARP ricevuta per IP: " + ipMittente);
-                    this.ARPCache.put(ipMittente, macMittente);
-                    promessa.complete(macMittente);
-                }
-            } 
-            else 
+            if (!isArpReply(f)) {
                 if (!f.getMACDest().equals("FF:FF:FF:FF:FF:FF") && !f.getMACDest().equals(this.sourceMAC))                    
                     return false;
 
                 return this.prevLayer.receive(f.getPayload());
+            } 
+            
+            String ipMittente = f.getPayload().getIPsrc();
+            String macMittente = f.getMACSrc();
+
+            // 2. Controlliamo se qualcuno stava aspettando questo IP
+            CompletableFuture<String> promessa = richiesteArpInSospeso.remove(ipMittente);
+
+            if (promessa != null) {
+                System.out.println("Risposta ARP ricevuta per IP: " + ipMittente);
+                this.ARPCache.put(ipMittente, macMittente);
+                promessa.complete(macMittente);
+            }
         }
         return false;
     }
