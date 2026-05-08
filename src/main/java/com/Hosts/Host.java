@@ -22,12 +22,12 @@ public class Host implements NetDevice {
      * @param ip   is a string like this 192.168.100.234
      * @param mac  is a string like this E4-60-17-3A-6F-6E
      */
-    public Host(String name, String ip, String mac, TransmissionChannel channel) {
+    public Host(String name, String ip, String subnetMask, String mac, TransmissionChannel channel) {
         this.name = (name.isEmpty() || name.length() > 20)
                 ? "host-" + UUID.randomUUID()
                 : name;
         this.channel = channel;
-        this.network = new NetworkCard(this, ip, mac, this.channel);
+        this.network = new NetworkCard(this, ip, subnetMask, mac, this.channel);
     }
 
     /**

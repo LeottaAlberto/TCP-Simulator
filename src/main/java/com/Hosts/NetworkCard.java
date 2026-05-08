@@ -27,13 +27,15 @@ public class NetworkCard {
     
     private final NetDevice ref;
     private String IP;
+    private String subnetMask;
     private String MAC;
 
-    public NetworkCard(NetDevice ref, String IP, String MAC, TransmissionChannel channel) {
+    public NetworkCard(NetDevice ref, String IP, String subnetMask, String MAC, TransmissionChannel channel) {
         this.ref = ref;
         this.IP = (Check.checkIP_IPV4(IP))
                 ? IP
                 : Generate.nextIP();
+        this.subnetMask = subnetMask;
         this.MAC = MAC;
 
         this.physicsLayer = new PhysicsLayer(channel);
@@ -52,6 +54,7 @@ public class NetworkCard {
     public NetworkCard(NetworkCard ref) {
         this.ref = ref.getRef();
         this.IP = ref.getIP();
+        this.subnetMask = ref.getSubnetMask();
         this.MAC = ref.getMAC();
         this.appLayer = ref.getAppLayer();
         this.dtLayer = ref.getDtLayer();
@@ -70,6 +73,10 @@ public class NetworkCard {
 
     public String getIP() {
         return this.IP;
+    }
+
+    public String getSubnetMask() {
+        return this.subnetMask;
     }
 
     public ApplicationLayer getAppLayer() {
@@ -93,7 +100,13 @@ public class NetworkCard {
     }
 
     public void setIP(String IP) {
+        if (!Check.checkIP_IPV4(IP)) return;
+        
         this.IP = IP;
+    }
+
+    public void setSubnetMask(String subnetMask) {
+        this.subnetMask = subnetMask;
     }
 
     public void setMAC(String MAC) {

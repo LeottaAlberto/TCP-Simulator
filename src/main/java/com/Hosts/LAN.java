@@ -3,13 +3,41 @@ package com.Hosts;
 import java.util.ArrayList;
 
 import com.Interface.TransmissionChannel;
+import com.Utility.Check;
+import com.Utility.Generate;
 import com.package_layer.Frame;
 
 public class LAN implements TransmissionChannel {
-    private final ArrayList<Host> connected;
+    private static final String STANDARD_SUBNET_MASK = "255.255.255.0";
 
-    public LAN() {
+    private final ArrayList<Host> connected;
+    private String IP;
+    private String subnetMask;
+
+    public LAN(String IP, String subnetMask) {
         this.connected = new ArrayList<>();
+        this.IP = Check.checkIP_IPV4(IP) ? IP : Generate.nextIP();
+        this.subnetMask = Check.checkSubnetMask(subnetMask) ? subnetMask : STANDARD_SUBNET_MASK;
+    }
+
+    public String getIP() {
+        return this.IP;
+    }
+
+    public String getSubnetMask() {
+        return this.subnetMask;
+    }
+
+    public void setIP(String IP) {
+        if (!Check.checkIP_IPV4(IP)) return;
+
+        this.IP = IP;
+    }
+
+    public void setSubnetMask(String subnetMask) {
+        if (!Check.checkSubnetMask(subnetMask)) return;
+        
+        this.subnetMask = subnetMask;
     }
 
     public void connect(Host device) {
